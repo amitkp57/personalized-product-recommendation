@@ -59,6 +59,6 @@ if __name__ == '__main__':
     T = 100
     k = 5
     X = data_loader.create_dataset('Patio_Lawn_and_Garden_5').to_numpy(dtype=float)
-    # X_hat = matrix_completion(X, T, k)
-    # print(X_hat)
-    print(min(X.flatten()), max(X.flatten()))
+    X_hat = matrix_completion(X, T, k)
+    print(X_hat)
+    # print(min(X.flatten()), max(X.flatten()))
