@@ -56,20 +56,26 @@ def create_dataset(name):
     return df
 
 
-def save_patio_lawn_garden():
+def json_to_npy(dataset):
     """
     Read JSON file and saves data in .npy format
     :return:
     """
     review_data = []
-    with open(f'{DATA_DIR}/Patio_Lawn_and_Garden_5.json', 'r') as f:
+    with open(f'{DATA_DIR}/{dataset}.json', 'r') as f:
         for row in f:
             review_json = json.loads(row)
             review_data.append([review_json['reviewerID'], review_json['asin'], int(review_json['overall'])])
-    npy_file = f'{DATA_DIR}/Patio_Lawn_and_Garden_5.npy'
+    npy_file = f'{DATA_DIR}/{dataset}.npy'
     with open(npy_file, 'wb') as f:
         np.savez(f, review_data)
     return
+
+
+def sparsity(dataset):
+    data = create_dataset(dataset).to_numpy(dtype=float)
+    n, m = data.shape
+    return 1 - np.count_nonzero(np.isnan(data)) / (m * n)
 
 
 if __name__ == '__main__':
@@ -77,4 +83,15 @@ if __name__ == '__main__':
     # # ratings = load_data('ratings_Apps_for_Android_small')
     # df = create_dataset('ratings_Apps_for_Android').to_numpy(dtype=float)
     # print(df)
-    save_patio_lawn_garden()
+    # json_to_npy('Amazon_Instant_Video_5')
+    # json_to_npy('Automotive_5')
+    # json_to_npy('Digital_Music_5')
+    # json_to_npy('Musical_Instruments_5')
+    # json_to_npy('Office_Products_5')
+    # json_to_npy('Patio_Lawn_and_Garden_5')
+    print(sparsity('Amazon_Instant_Video_5'))
+    print(sparsity('Automotive_5'))
+    print(sparsity('Digital_Music_5'))
+    print(sparsity('Musical_Instruments_5'))
+    print(sparsity('Office_Products_5'))
+    print(sparsity('Patio_Lawn_and_Garden_5'))
